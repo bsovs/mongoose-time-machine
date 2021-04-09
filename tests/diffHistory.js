@@ -157,8 +157,7 @@ describe('diffHistory', function () {
             mongoose.connection.collections['history6'].remove({}),
             mongoose.connection.collections['mandatories'].remove({}),
             mongoose.connection.collections['timestamps'].remove({}),
-            mongoose.connection.collections['strictdisables'].remove({}),
-            mongoose.connection.collections['histories'].remove({})
+            mongoose.connection.collections['strictdisables'].remove({})
         ])
             .then(() => done())
             .catch(done);
@@ -176,8 +175,7 @@ describe('diffHistory', function () {
             mongoose.connection.collections['history6'].remove({}),
             mongoose.connection.collections['mandatories'].remove({}),
             mongoose.connection.collections['timestamps'].remove({}),
-            mongoose.connection.collections['strictdisables'].remove({}),
-            mongoose.connection.collections['histories'].remove({})
+            mongoose.connection.collections['strictdisables'].remove({})
         ])
             .then(() => done())
             .catch(done);

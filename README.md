@@ -1,12 +1,13 @@
-[![Build Status](https://travis-ci.org/mimani/mongoose-diff-history.svg?branch=master)](https://travis-ci.org/mimani/mongoose-diff-history)
-[![Downloads](https://img.shields.io/npm/dt/mongoose-diff-history.svg)](https://www.npmjs.com/package/mongoose-diff-history)
-[![Codacy](https://api.codacy.com/project/badge/grade/bf1936538af048ac8d104a6c2ecd71ca)](https://www.codacy.com/app/mimani-saurabh/mongoose-diff-history)
-[![Code Climate](https://codeclimate.com/github/mimani/mongoose-diff-history/badges/gpa.svg)](https://codeclimate.com/github/mimani/mongoose-diff-history)
-[![Test Coverage](https://codeclimate.com/github/mimani/mongoose-diff-history/badges/coverage.svg)](https://codeclimate.com/github/mimani/mongoose-diff-history/coverage)
+[![Build Status](https://travis-ci.com/bsovs/mongoose-time-machine.svg?branch=main)](https://travis-ci.org/mimani/mongoose-diff-history)
+[![Codacy](https://api.codacy.com/project/badge/grade/bf1936538af048ac8d104a6c2ecd71ca)](https://www.codacy.com/app/bsovs/mongoose-time-machine)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d5933d4166719ff11775/maintainability)](https://codeclimate.com/github/bsovs/mongoose-time-machine/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/d5933d4166719ff11775/test_coverage)](https://codeclimate.com/github/bsovs/mongoose-time-machine/test_coverage)
 
-# mongoose-diff-history
+# mongoose-time-machine
 
 Stores and Manages all the differences and versions, any Mongo collection goes through it's lifecycle.
+
+-   Based on the popular project [mongoose-diff-history](https://github.com/mimani/mongoose-diff-history)
 
 ## Installation
 
@@ -15,7 +16,7 @@ Stores and Manages all the differences and versions, any Mongo collection goes t
 ### npm
 
 ```sh
-npm install mongoose-diff-history
+npm install mongoose-time-machine
 ```
 
 ## Operation
@@ -46,9 +47,9 @@ Use as you would any Mongoose plugin:
 
 ```js
 const mongoose = require('mongoose'),
-      diffHistory = require('mongoose-diff-history/diffHistory'),
+      diffHistoryTest = require('mongoose-time-machine/diffHistoryTest'),
       schema = new mongoose.Schema({ ... });
-      schema.plugin(diffHistory.plugin, { name: 'SchemaHistory' });
+      schema.plugin(diffHistoryTest.plugin, { name: 'SchemaHistory' });
 ```
 
 The plugin also has an omit option which accepts either a string or array. This will omit the given
@@ -56,7 +57,7 @@ keys from history. Follows dot syntax for deeply nested values.
 
 ```js
 const mongoose = require('mongoose');
-const diffHistory = require('mongoose-diff-history/diffHistory');
+const diffHistoryTest = require('mongoose-time-machine/diffHistoryTest');
 
 const Schema = new mongoose.Schema({
     someField: String,
@@ -66,7 +67,7 @@ const Schema = new mongoose.Schema({
     }
 });
 
-schema.plugin(diffHistory.plugin, {
+schema.plugin(diffHistoryTest.plugin, {
     name: 'MyModelHistory',
     omit: ['ignoredField', 'some.deepField']
 });
@@ -82,10 +83,11 @@ You can get all the histories created for an object using following method:
 ```js
 const expandableFields = ['abc', 'def'];
 
-mongooseModel.getHistories(ObjectId, expandableFields, function (
-    err,
-    histories
-) {});
+mongooseModel.getHistories(
+    ObjectId,
+    expandableFields,
+    function (err, histories) {}
+);
 
 // or, as a promise
 mongooseModel
@@ -127,10 +129,12 @@ mongooseModel
 You can also use Mongoose query options with getVersion like so:
 
 ```js
-mongooseModel.getVersion(ObjectId, version, { lean: true }, function (
-    err,
-    oldObject
-) {});
+mongooseModel.getVersion(
+    ObjectId,
+    version,
+    { lean: true },
+    function (err, oldObject) {}
+);
 
 // or, as a promise
 mongooseModel
@@ -157,7 +161,7 @@ mongooseModel.history
 
 ---
 
-I have created an [example](https://github.com/mimani/mongoose-diff-history/tree/master/example) express service (documentation [here](https://github.com/mimani/mongoose-diff-history/blob/master/example/README.md)), demonstrating this plugin via an simple employee schema, checkout `example` directory in this repo.
+The example found [here](https://github.com/bsovs/mongoose-time-machine/tree/master/example) is an express service (documentation [here](https://github.com/bsovs/mongoose-time-machine/blob/master/example/README.md)), demonstrating this plugin via an simple employee schema, checkout `example` directory in this repo.
 
 ## Contributing
 

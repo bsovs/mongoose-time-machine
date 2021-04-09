@@ -1,6 +1,6 @@
 {
-    "name": "mongoose-diff-history",
-    "version": "3.0.0",
+    "name": "mongoose-time-machine",
+    "version": "1.0.0",
     "description": "Manage Mongo Collection diff History and versions",
     "main": "diffHistoryModel.js",
     "directories": {
@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/mimani/mongoose-diff-history"
+        "url": "https://github.com/bsovs/mongoose-time-machine"
     },
     "husky": {
         "hooks": {
@@ -29,7 +29,7 @@
         "commitlint": "^8.3.5",
         "husky": "^4.2.5",
         "istanbul": "^0.4.5",
-        "mocha": "^2.5.3",
+        "mocha": "^8.3.2",
         "mongoose": "^4.13.9",
         "nyc": "^15.1.0",
         "prettier": "^2.0.5",
@@ -70,7 +70,7 @@
         "versioning"
     ],
     "bugs": {
-        "url": "https://github.com/mimani/mongoose-diff-history/issues"
+        "url": "https://github.com/bsovs/mongoose-time-machine/issues"
     },
     "license": "Apache-2.0"
 }

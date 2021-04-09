@@ -345,30 +345,6 @@ plugin = (schema, opts = {}) => {
     });
 };
 
-// TODO: Remove this in future version. @deprecated since v3
-const _history = new DiffHistory({}, { name: 'histories' });
-/**
- * @deprecated Since version 3.0.0. Use mongooseModel.getVersion instead.
- */
-const getVersion = function (model, id, version, queryOps, cb) {
-    return _history.getVersion(model, id, version, queryOps, cb);
-};
-/**
- * @deprecated Since version 3.0.0. Use mongooseModel.getDiffs instead.
- */
-const getDiffs = function (modelName, id, opts, cb) {
-    return _history.getDiffs(modelName, id, opts, cb);
-};
-/**
- * @deprecated Since version 3.0.0. Use mongooseModel.getHistories instead.
- */
-const getHistories = function (modelName, id, expandableFields, cb) {
-    return _history.getHistories(modelName, id, expandableFields, cb);
-};
-
 module.exports = {
-    plugin,
-    getVersion,
-    getDiffs,
-    getHistories
+    plugin
 };

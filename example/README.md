@@ -1,19 +1,25 @@
-This is sample express REST application which demonstrates how `mongoose-diff-history` is used.
+This is sample express REST application which demonstrates how `mongoose-time-machine` is used.
 
+-   This example is based on `mongoose-diff-history` project found [here](https://github.com/mimani/mongoose-diff-history)
 
 ## Installation
+
 Install all npm dependencies required
+
 ```
 npm install
 ```
 
 start the express server
+
 ```
 npm test
 ```
+
 Start a mongo server.
 
 From the rest client you can create a employee entry, with following:
+
 ```
 Method: POST
 URL: http://localhost:3000/employees
@@ -26,6 +32,7 @@ Payload: {
 ```
 
 ## GET
+
 You can get the employee with following:
 
 ```
@@ -45,6 +52,7 @@ Sample Payload
 I have written three APIs to update employees. These 3 APIs use three different mongoose methods to update the object.
 
 ## Save
+
 Update the employee using `save` method, following is the API signature:
 
 ```
@@ -57,6 +65,7 @@ Payload: {
 ```
 
 ## Update
+
 Update the employee using `update` method, following is the API signature:
 
 ```
@@ -69,6 +78,7 @@ Payload: {
 ```
 
 ## findOneAndUpdate
+
 Update the employee using `update` method, following is the API signature:
 
 ```

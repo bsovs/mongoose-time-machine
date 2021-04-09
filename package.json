@@ -34,7 +34,7 @@
         "nyc": "^15.1.0",
         "prettier": "^2.0.5",
         "pretty-quick": "^2.0.1",
-        "standard-version": "^7.1.0"
+        "standard-version": "^8.0.1"
     },
     "scripts": {
         "test": "nyc --reporter=lcov _mocha tests && nyc report --reporter=lcov",

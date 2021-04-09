@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/bsovs/mongoose-time-machine.svg?branch=main)](https://travis-ci.org/mimani/mongoose-diff-history)
+[![Build Status](https://travis-ci.com/bsovs/mongoose-time-machine.svg?branch=main)](https://travis-ci.org/bsovs/mongoose-time-machine)
 [![Codacy](https://api.codacy.com/project/badge/grade/bf1936538af048ac8d104a6c2ecd71ca)](https://www.codacy.com/app/bsovs/mongoose-time-machine)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d5933d4166719ff11775/maintainability)](https://codeclimate.com/github/bsovs/mongoose-time-machine/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d5933d4166719ff11775/test_coverage)](https://codeclimate.com/github/bsovs/mongoose-time-machine/test_coverage)

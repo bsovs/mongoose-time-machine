@@ -20,12 +20,13 @@ const historySchemaGenerator = (paths, opts) =>
     );
 
 const historyModelGenerator = (schema, opts = {}) => {
+    const adapter = opts.adapter || mongoose;
     let model;
     try {
-        model = mongoose.model(`${opts.name}`);
+        model = adapter.model(`${opts.name}`);
         console.log(`Model [${opts.name}] already exists`);
     } catch (e) {
-        model = mongoose.model(
+        model = adapter.model(
             `${opts.name}`,
             historySchemaGenerator(schema.paths, opts.schemaOpts)
         );

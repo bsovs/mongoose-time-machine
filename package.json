@@ -1,6 +1,6 @@
 {
     "name": "mongoose-time-machine",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Manage Mongo Collection diff History and versions",
     "main": "index.js",
     "directories": {
@@ -41,7 +41,7 @@
         "test": "nyc --reporter=lcov mocha tests --exit && nyc report --reporter=lcov",
         "release": "standard-version",
         "dc:db-up": "docker-compose -f ./tests/db/docker-compose.yml up --remove-orphans -d && docker exec -it localmongo1 /bin/bash",
-        "dc:db-down": "docker-compose -f ./tests/db/docker-compose.yml down",
+        "dc:db-down": "docker-compose -f ./tests/db/docker-compose.yml down --remove-orphans",
         "dc:db-destroy": "docker-compose -f ./tests/db/docker-compose.yml down -v --remove-orphans"
     },
     "contributors": [
@@ -65,7 +65,7 @@
         "url": "https://github.com/bsovs/mongoose-time-machine/issues"
     },
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com"
+        "registry": "https://registry.npmjs.org"
     },
     "license": "Apache-2.0",
     "homepage": "https://github.com/bsovs/mongoose-time-machine#readme",

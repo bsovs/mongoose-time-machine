@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/bsovs/mongoose-time-machine.svg?branch=main)](https://travis-ci.org/bsovs/mongoose-time-machine)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c4a540fdfd74b6f8f016d6644a313b2)](https://www.codacy.com/gh/bsovs/mongoose-time-machine/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bsovs/mongoose-time-machine&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/bsovs/mongoose-time-machine.svg?branch=main)](https://travis-ci.com/bsovs/mongoose-time-machine)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c4a540fdfd74b6f8f016d6644a313b2)](https://www.codacy.com/gh/bsovs/mongoose-time-machine/dashboard?utm_source=github.com&utm_medium=referral&utm_content=bsovs/mongoose-time-machine&utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d5933d4166719ff11775/maintainability)](https://codeclimate.com/github/bsovs/mongoose-time-machine/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d5933d4166719ff11775/test_coverage)](https://codeclimate.com/github/bsovs/mongoose-time-machine/test_coverage)
 
@@ -47,9 +47,9 @@ Use as you would any Mongoose plugin:
 
 ```js
 const mongoose = require('mongoose'),
-      diffHistoryTest = require('mongoose-time-machine/diffHistoryTest'),
+      timeMachine = require('mongoose-time-machine'),
       schema = new mongoose.Schema({ ... });
-      schema.plugin(diffHistoryTest.plugin, { name: 'SchemaHistory' });
+      schema.plugin(timeMachine.plugin, { name: 'SchemaHistory' });
 ```
 
 The plugin also has an omit option which accepts either a string or array. This will omit the given
@@ -57,7 +57,7 @@ keys from history. Follows dot syntax for deeply nested values.
 
 ```js
 const mongoose = require('mongoose');
-const diffHistoryTest = require('mongoose-time-machine/diffHistoryTest');
+const timeMachine = require('mongoose-time-machine');
 
 const Schema = new mongoose.Schema({
     someField: String,
@@ -67,7 +67,7 @@ const Schema = new mongoose.Schema({
     }
 });
 
-schema.plugin(diffHistoryTest.plugin, {
+schema.plugin(timeMachine.plugin, {
     name: 'MyModelHistory',
     omit: ['ignoredField', 'some.deepField']
 });
@@ -168,3 +168,32 @@ The example found [here](https://github.com/bsovs/mongoose-time-machine/tree/mas
 ---
 
 This project is now using [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) syntax for commit messages, to allow for easier updates in change logs & release notes. Please follow these conventions in your commits.
+
+### Test Locally
+
+-   Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
+-   Run `npm run dc:db-up` to start local mongoDB on port 27017
+-   In the console type:
+    -   `mongo`
+    -   then copy paste
+        ```sh
+        rs.initiate(
+          {
+            _id : 'rs0',
+            members: [
+              { _id : 0, host : "mongo1:27017" },
+              { _id : 1, host : "mongo2:27017" },
+              { _id : 2, host : "mongo3:27017" }
+            ]
+          }
+        )
+        ```
+-   You can view the database byh connecting to `mongodb://localhost:27017` through [mongo compass](https://www.mongodb.com/try/download/compass)
+-   Run test suite with `npm run test`
+
+### Available Commands
+
+-   `dc:db-up` start local db
+-   `dc:db-down` stop local db
+-   `dc:db-destroy` delete local db
+-   `test` run test suite

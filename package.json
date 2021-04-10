@@ -2,7 +2,7 @@
     "name": "mongoose-time-machine",
     "version": "1.0.0",
     "description": "Manage Mongo Collection diff History and versions",
-    "main": "diffHistoryModel.js",
+    "main": "index.js",
     "directories": {
         "example": "example",
         "test": "tests"
@@ -39,7 +39,10 @@
     },
     "scripts": {
         "test": "nyc --reporter=lcov mocha tests --exit && nyc report --reporter=lcov",
-        "release": "standard-version"
+        "release": "standard-version",
+        "dc:db-up": "docker-compose -f ./tests/db/docker-compose.yml up --remove-orphans -d && docker exec -it localmongo1 /bin/bash",
+        "dc:db-down": "docker-compose -f ./tests/db/docker-compose.yml down",
+        "dc:db-destroy": "docker-compose -f ./tests/db/docker-compose.yml down -v --remove-orphans"
     },
     "contributors": [
         "Saurabh Mimani <mimani.saurabh@gmail.com>",
@@ -60,6 +63,9 @@
     ],
     "bugs": {
         "url": "https://github.com/bsovs/mongoose-time-machine/issues"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
     },
     "license": "Apache-2.0",
     "homepage": "https://github.com/bsovs/mongoose-time-machine#readme",

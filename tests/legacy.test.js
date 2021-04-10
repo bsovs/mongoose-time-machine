@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 const mongoose = require('mongoose');
 const diffPatch = require('jsondiffpatch').create();
 
-const diffHistory = require('../diffHistory');
+const diffHistory = require('../index');
 const semver = require('semver');
 mongoose.Promise = Promise;
 
@@ -17,18 +17,9 @@ if (mongoVersion < 5) {
         useMongoClient: true
     });
 } else {
-    /*
-     *  to test transaction need a mongoDBv4, and start with cluster, see below link.
-     *  http://thecodebarbarian.com/introducing-run-rs-zero-config-mongodb-runner.html
-     *  and remember to stop your original non cluster mongoDB
-     *  also need to use mongoose version 5.2.9 or later
-     */
-    // const uri = (testTransaction) ? 'mongodb://localhost:27017,localhost:27018,localhost:27019/tekpub_test?replicaSet=rs' : 'mongodb://localhost:27017/tekpub_test';
     const uri = 'mongodb://localhost:27017/tekpub_test';
-    const uriRS =
-        'mongodb://localhost:27017,localhost:27018,localhost:27019/tekpub_test?replicaSet=rs';
     mongoose
-        .connect(uriRS, { useNewUrlParser: true })
+        .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {
             console.log('MongoDB connected');
             mongoose.connection.db
@@ -65,7 +56,10 @@ if (mongoVersion < 5) {
                 `Unable to connect in replca mode - falling back normal - ${e}`
             );
             mongoose
-                .connect(uri, { useNewUrlParser: true })
+                .connect(uri, {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true
+                })
                 .then(() => {
                     console.log('MongoDB connected');
                 })
@@ -144,36 +138,36 @@ const seedStrictMode = key1 => new StrictDisabled({ key1 }).save();
 describe('diffHistory', function () {
     before(function (done) {
         Promise.all([
-            mongoose.connection.collections['samples'].remove({}),
-            mongoose.connection.collections['picks'].remove({}),
-            mongoose.connection.collections['samplesarrays'].remove({}),
-            mongoose.connection.collections['history1'].remove({}),
-            mongoose.connection.collections['history2'].remove({}),
-            mongoose.connection.collections['history3'].remove({}),
-            mongoose.connection.collections['history4'].remove({}),
-            mongoose.connection.collections['history5'].remove({}),
-            mongoose.connection.collections['history6'].remove({}),
-            mongoose.connection.collections['mandatories'].remove({}),
-            mongoose.connection.collections['timestamps'].remove({}),
-            mongoose.connection.collections['strictdisables'].remove({})
+            mongoose.connection.collections['samples'].deleteMany({}),
+            mongoose.connection.collections['picks'].deleteMany({}),
+            mongoose.connection.collections['samplesarrays'].deleteMany({}),
+            mongoose.connection.collections['history1'].deleteMany({}),
+            mongoose.connection.collections['history2'].deleteMany({}),
+            mongoose.connection.collections['history3'].deleteMany({}),
+            mongoose.connection.collections['history4'].deleteMany({}),
+            mongoose.connection.collections['history5'].deleteMany({}),
+            mongoose.connection.collections['history6'].deleteMany({}),
+            mongoose.connection.collections['mandatories'].deleteMany({}),
+            mongoose.connection.collections['timestamps'].deleteMany({}),
+            mongoose.connection.collections['strictdisables'].deleteMany({})
         ])
             .then(() => done())
             .catch(done);
     });
     afterEach(function (done) {
         Promise.all([
-            mongoose.connection.collections['samples'].remove({}),
-            mongoose.connection.collections['picks'].remove({}),
-            mongoose.connection.collections['samplesarrays'].remove({}),
-            mongoose.connection.collections['history1'].remove({}),
-            mongoose.connection.collections['history2'].remove({}),
-            mongoose.connection.collections['history3'].remove({}),
-            mongoose.connection.collections['history4'].remove({}),
-            mongoose.connection.collections['history5'].remove({}),
-            mongoose.connection.collections['history6'].remove({}),
-            mongoose.connection.collections['mandatories'].remove({}),
-            mongoose.connection.collections['timestamps'].remove({}),
-            mongoose.connection.collections['strictdisables'].remove({})
+            mongoose.connection.collections['samples'].deleteMany({}),
+            mongoose.connection.collections['picks'].deleteMany({}),
+            mongoose.connection.collections['samplesarrays'].deleteMany({}),
+            mongoose.connection.collections['history1'].deleteMany({}),
+            mongoose.connection.collections['history2'].deleteMany({}),
+            mongoose.connection.collections['history3'].deleteMany({}),
+            mongoose.connection.collections['history4'].deleteMany({}),
+            mongoose.connection.collections['history5'].deleteMany({}),
+            mongoose.connection.collections['history6'].deleteMany({}),
+            mongoose.connection.collections['mandatories'].deleteMany({}),
+            mongoose.connection.collections['timestamps'].deleteMany({}),
+            mongoose.connection.collections['strictdisables'].deleteMany({})
         ])
             .then(() => done())
             .catch(done);
@@ -1294,7 +1288,7 @@ describe('diffHistory', function () {
     });
 });
 
-describe('diffHistory Error', function () {
+describe('legacyTest Error', function () {
     it('should throw an error when given an omit option not string or array', function () {
         const errSchema = new mongoose.Schema({ a: String });
         expect(() =>
@@ -1306,7 +1300,7 @@ describe('diffHistory Error', function () {
     });
 });
 
-describe('diffHistory URI Option', function () {
+describe('legacyTest URI Option', function () {
     it('should connect to DB at optional URI', async () => {
         const testSchema = new mongoose.Schema({ a: String });
         await new Promise(resolve =>

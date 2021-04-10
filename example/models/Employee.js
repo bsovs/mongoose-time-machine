@@ -9,7 +9,7 @@ const EmployeeSchema = new mongoose.Schema({
     employeeId: { type: String }
 });
 
-const diffHistory = require('mongoose-diff-history/diffHistory').plugin;
+const diffHistory = require('mongoose-time-machine').plugin;
 EmployeeSchema.plugin(diffHistory, { name: 'EmployeeHistory' });
 
 const Employee = mongoose.model('Employee', EmployeeSchema);

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const DiffHistory = require('./diffHistoryObject');
+const Index = require('./diffHistoryObject');
 
 /**
  * @param {Object} schema - Schema object passed by Mongoose Schema.plugin
@@ -28,7 +28,7 @@ plugin = (schema, opts = {}) => {
         }
     }
 
-    const History = new DiffHistory(schema, opts);
+    const History = new Index(schema, opts);
 
     schema.statics.getVersion = function (id, version, queryOps, cb) {
         return History.getVersion(this, id, version, queryOps, cb);

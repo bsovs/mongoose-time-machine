@@ -1,35 +1,35 @@
 {
-  "name": "pdb_tool_backend",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "NODE_ENV=production node ./bin/www",
-    "test": "NODE_ENV=localhost node ./bin/www",
-    "mocha": "NODE_ENV=test mocha ./bin/www",
-    "staging": "NODE_ENV=staging node ./bin/www"
-  },
-  "dependencies": {
-    "async": "*",
-    "JSONStream": "^1.0.6",
-    "body-parser": "~1.13.2",
-    "debug": "~2.2.0",
-    "ejs": "~3.1.2",
-    "event-stream": "^3.3.2",
-    "express": "~4.13.1",
-    "express-request-logger": "0.0.3",
-    "express-unless": "^0.3.0",
-    "http": "latest",
-    "jsondiffpatch": "0.1.43",
-    "lodash": "^4.0.0",
-    "mongoose": "4.4.4",
-    "mongoose-diff-history": "1.1.1",
-    "morgan": "~1.6.1",
-    "node-esapi": "latest",
-    "nodemon": "^1.9.1",
-    "python-shell": "^0.4.0",
-    "request": "2.88.2",
-    "verror": "^1.6.0",
-    "winston": "^2.2.0"
-  },
-  "devDependencies": {}
+    "name": "pdb_tool_backend",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "NODE_ENV=production node ./bin/www",
+        "test": "NODE_ENV=localhost node ./bin/www",
+        "mocha": "NODE_ENV=test mocha ./bin/www",
+        "staging": "NODE_ENV=staging node ./bin/www"
+    },
+    "dependencies": {
+        "async": "*",
+        "JSONStream": "^1.0.6",
+        "body-parser": "~1.13.2",
+        "debug": "~2.2.0",
+        "ejs": "~3.1.2",
+        "event-stream": "^3.3.2",
+        "express": "~4.13.1",
+        "express-request-logger": "0.0.3",
+        "express-unless": "^0.3.0",
+        "http": "latest",
+        "jsondiffpatch": "0.1.43",
+        "lodash": "^4.0.0",
+        "mongoose": "4.4.4",
+        "mongoose-time-machine": "1.0.0",
+        "morgan": "~1.6.1",
+        "node-esapi": "latest",
+        "nodemon": "^1.9.1",
+        "python-shell": "^0.4.0",
+        "request": "2.88.2",
+        "verror": "^1.6.0",
+        "winston": "^2.2.0"
+    },
+    "devDependencies": {}
 }

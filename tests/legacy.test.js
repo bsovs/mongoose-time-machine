@@ -19,9 +19,13 @@ if (mongoVersion < 5) {
 } else {
     const uri = 'mongodb://localhost:27017/tekpub_test';
     const uris =
-        'mongodb://localhost:27017,localhost:27018,localhost:27019/tekpub_test?replicaSet=rs0';
+        'mongodb://localhost:27017,localhost:27018,localhost:27019/tekpub_test?replicaSet=rs0&connectTimeoutMS=1000';
     mongoose
-        .connect(uris, { useNewUrlParser: true, useUnifiedTopology: true })
+        .connect(uris, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 500
+        })
         .then(() => {
             console.log('MongoDB connected');
             mongoose.connection.db

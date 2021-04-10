@@ -4,11 +4,12 @@
     "description": "Manage Mongo Collection diff History and versions",
     "main": "diffHistoryModel.js",
     "directories": {
+        "example": "example",
         "test": "tests"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/bsovs/mongoose-time-machine"
+        "url": "git+https://github.com/bsovs/mongoose-time-machine.git"
     },
     "husky": {
         "hooks": {
@@ -41,22 +42,10 @@
         "release": "standard-version"
     },
     "contributors": [
-        {
-            "name": "Saurabh Mimani",
-            "email": "mimani.saurabh@gmail.com"
-        },
-        {
-            "name": "Amith Prasad",
-            "email": "send2amith@gmail.com"
-        },
-        {
-            "name": "Zachary Rollyson",
-            "email": "me@zjr.io"
-        },
-        {
-            "name": "Brandon Sovran",
-            "email": "brandon.sovran@gmail.com"
-        }
+        "Saurabh Mimani <mimani.saurabh@gmail.com>",
+        "Amith Prasad <send2amith@gmail.com>",
+        "Zachary Rollyson <me@zjr.io>",
+        "Brandon Sovran <brandon.sovran@gmail.com>"
     ],
     "engines": {
         "node": ">=14.0.0"
@@ -72,5 +61,7 @@
     "bugs": {
         "url": "https://github.com/bsovs/mongoose-time-machine/issues"
     },
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/bsovs/mongoose-time-machine#readme",
+    "author": "bsovs"
 }

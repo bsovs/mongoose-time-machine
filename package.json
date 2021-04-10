@@ -26,18 +26,18 @@
     "devDependencies": {
         "bluebird": "^3.5.1",
         "chai": "^3.5.0",
-        "commitlint": "^8.3.5",
+        "commitlint": "^12.1.1",
         "husky": "^4.2.5",
         "istanbul": "^0.4.5",
-        "mocha": "^2.5.3",
-        "mongoose": "^4.13.9",
+        "mocha": "^8.3.2",
+        "mongoose": "^5.12.3",
         "nyc": "^15.1.0",
         "prettier": "^2.0.5",
         "pretty-quick": "^2.0.1",
-        "standard-version": "^7.1.0"
+        "standard-version": "^9.2.0"
     },
     "scripts": {
-        "test": "nyc --reporter=lcov _mocha tests && nyc report --reporter=lcov",
+        "test": "nyc --reporter=lcov mocha tests --exit && nyc report --reporter=lcov",
         "release": "standard-version"
     },
     "contributors": [

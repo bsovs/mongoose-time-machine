@@ -78,8 +78,6 @@ if (mongoVersion < 5) {
         });
 }
 
-mongoose.models = {};
-
 const sampleSchema1 = new mongoose.Schema({
     abc: { type: Date, default: Date.now() },
     def: String,
@@ -268,7 +266,7 @@ describe('diffHistory', function () {
                 expect(oldSample).to.be.an('object');
                 expect(oldSample.toObject()).to.deep.equal(sampleV1);
                 done();
-            });
+            }).catch(done);
         });
 
         it('should return correct version for version 0 using callback and opts', function (done) {
@@ -282,17 +280,16 @@ describe('diffHistory', function () {
                     expect(oldSample).to.deep.equal(sampleV1);
                     done();
                 }
-            );
+            ).catch(done);
         });
 
         it('should return an error when calling without id', function (done) {
             Sample1.getVersion('', 0, (err, oldSample) => {
                 expect(oldSample).to.be.null;
-                expect(err).to.be.an('object');
                 expect(err.name).to.equal('CastError');
                 expect(err.path).to.equal('_id');
                 done();
-            });
+            }).catch(done);
         });
     });
 
@@ -379,17 +376,19 @@ describe('diffHistory', function () {
         });
 
         it('should only create stories with the picked field', function (done) {
-            PickSchema.history.find({}, function (err, histories) {
-                expect(err).to.null;
-                expect(histories.length).equal(1);
-                expect(histories[0].diff.pickOnly[0]).equal('original');
-                expect(histories[0].diff.pickOnly[1]).equal(
-                    'changeThisOneOnly'
-                );
-                expect(histories[0].diff).to.not.contain.key('ghi');
-                expect(histories[0].diff).to.not.contain.key('def');
-                done();
-            });
+            PickSchema.history
+                .find({}, function (err, histories) {
+                    expect(err).to.null;
+                    expect(histories.length).equal(1);
+                    expect(histories[0].diff.pickOnly[0]).equal('original');
+                    expect(histories[0].diff.pickOnly[1]).equal(
+                        'changeThisOneOnly'
+                    );
+                    expect(histories[0].diff).to.not.contain.key('ghi');
+                    expect(histories[0].diff).to.not.contain.key('def');
+                    done();
+                })
+                .catch(done);
         });
     });
 
@@ -413,9 +412,8 @@ describe('diffHistory', function () {
         });
 
         it('should create a diff object when collection is saved', function (done) {
-            Sample1.history.find(
-                { collectionId: sample1._id },
-                function (err, histories) {
+            Sample1.history
+                .find({ collectionId: sample1._id }, function (err, histories) {
                     expect(err).to.null;
                     expect(histories.length).equal(1);
                     expect(histories[0].diff.def[0]).equal('ipsum');
@@ -430,8 +428,8 @@ describe('diffHistory', function () {
                         Sample1.modelName
                     );
                     done();
-                }
-            );
+                })
+                .catch(done);
         });
 
         it('should return histories', function (done) {
@@ -450,17 +448,16 @@ describe('diffHistory', function () {
                 expect(historyAudits.length).equal(1);
                 expect(historyAudits[0].comment).equal('modified def');
                 done();
-            });
+            }).catch(done);
         });
 
         it('should throw an error if trying to get histories without an id', function (done) {
             Sample1.getHistories('', [], (err, historyAudits) => {
                 expect(historyAudits).to.be.null;
-                expect(err).to.be.an('object');
                 expect(err.name).to.equal('CastError');
                 expect(err.path).to.equal('collectionId');
                 done();
-            });
+            }).catch(done);
         });
     });
 
@@ -490,21 +487,27 @@ describe('diffHistory', function () {
         });
 
         it('should create a diff object when collections are updated via update', function (done) {
-            Sample1.history.find({}, function (err, histories) {
-                expect(err).to.null;
-                expect(histories.length).equal(2);
-                expect(histories[0].diff.ghi[0]).equal(123);
-                expect(histories[0].diff.ghi[1]).equal(1212);
-                expect(histories[0].user).equal('Mimani');
-                expect(histories[0].reason).equal('Mimani updated');
-                expect(histories[0].collectionName).equal(Sample1.modelName);
-                expect(histories[1].diff.ghi[0]).equal(456);
-                expect(histories[1].diff.ghi[1]).equal(1212);
-                expect(histories[1].user).equal('Mimani');
-                expect(histories[1].reason).equal('Mimani updated');
-                expect(histories[1].collectionName).equal(Sample1.modelName);
-                done();
-            });
+            Sample1.history
+                .find({}, function (err, histories) {
+                    expect(err).to.null;
+                    expect(histories.length).equal(2);
+                    expect(histories[0].diff.ghi[0]).equal(123);
+                    expect(histories[0].diff.ghi[1]).equal(1212);
+                    expect(histories[0].user).equal('Mimani');
+                    expect(histories[0].reason).equal('Mimani updated');
+                    expect(histories[0].collectionName).equal(
+                        Sample1.modelName
+                    );
+                    expect(histories[1].diff.ghi[0]).equal(456);
+                    expect(histories[1].diff.ghi[1]).equal(1212);
+                    expect(histories[1].user).equal('Mimani');
+                    expect(histories[1].reason).equal('Mimani updated');
+                    expect(histories[1].collectionName).equal(
+                        Sample1.modelName
+                    );
+                    done();
+                })
+                .catch(done);
         });
 
         it('should return histories', function (done) {
@@ -551,21 +554,25 @@ describe('diffHistory', function () {
         });
 
         it('should create a diff object when collections are updated via update', function (done) {
-            SampleArray.history.find({}, function (err, histories) {
-                expect(err).to.null;
-                expect(histories.length).equal(1);
-                expect(histories[0].diff.items['2'][0].type).equal('three');
-                expect(histories[0].diff.things['2'][0].number).equal('three');
-                expect(histories[0].diff.info[0]).equal('something');
-                expect(histories[0].diff.items._t).equal('a');
-                expect(histories[0].diff.things._t).equal('a');
-                expect(histories[0].user).equal('Gibran');
-                expect(histories[0].reason).equal('TestingPushArray');
-                expect(histories[0].collectionName).equal(
-                    SampleArray.modelName
-                );
-                done();
-            });
+            SampleArray.history
+                .find({}, function (err, histories) {
+                    expect(err).to.null;
+                    expect(histories.length).equal(1);
+                    expect(histories[0].diff.items['2'][0].type).equal('three');
+                    expect(histories[0].diff.things['2'][0].number).equal(
+                        'three'
+                    );
+                    expect(histories[0].diff.info[0]).equal('something');
+                    expect(histories[0].diff.items._t).equal('a');
+                    expect(histories[0].diff.things._t).equal('a');
+                    expect(histories[0].user).equal('Gibran');
+                    expect(histories[0].reason).equal('TestingPushArray');
+                    expect(histories[0].collectionName).equal(
+                        SampleArray.modelName
+                    );
+                    done();
+                })
+                .catch(done);
         });
 
         it('should update the array correctly', function (done) {
@@ -578,7 +585,7 @@ describe('diffHistory', function () {
                 expect(arrayCollections[0].things[1].number).equal('two');
                 expect(arrayCollections[0].things[2].number).equal('three');
                 done();
-            });
+            }).catch(done);
         });
     });
 
@@ -651,28 +658,33 @@ describe('diffHistory', function () {
 
         it('should not fail if timestamps enabled', function (done) {
             const timestampModel = new TimestampsSchema({ def: 'hello' });
-            timestampModel.save().then(() =>
-                TimestampsSchema.findOneAndUpdate(
-                    { def: 'hello' },
-                    { def: 'update hello' }
+            timestampModel
+                .save()
+                .then(() =>
+                    TimestampsSchema.findOneAndUpdate(
+                        { def: 'hello' },
+                        { def: 'update hello' }
+                    )
+                        .then(() => done())
+                        .catch(e => {
+                            done(e);
+                        })
                 )
-                    .then(() => done())
-                    .catch(e => {
-                        done(e);
-                    })
-            );
+                .catch(done);
         });
 
         it('should omit unknown keys in diff if strict mode enabled', function (done) {
-            Sample1.findById(sample1._id).then(sample => {
-                expect(sample.unknownKey).to.undefined;
-                Sample1.history.find({}, function (err, histories) {
-                    expect(err).to.null;
-                    expect(histories.length).equal(1);
-                    expect(histories[0].diff.unknownKey).to.undefined;
-                    done();
-                });
-            });
+            Sample1.findById(sample1._id)
+                .then(sample => {
+                    expect(sample.unknownKey).to.undefined;
+                    Sample1.history.find({}, function (err, histories) {
+                        expect(err).to.null;
+                        expect(histories.length).equal(1);
+                        expect(histories[0].diff.unknownKey).to.undefined;
+                        done();
+                    });
+                })
+                .catch(done);
         });
 
         it('should allow unknown keys if strict mode disabled', function (done) {
@@ -742,20 +754,26 @@ describe('diffHistory', function () {
         });
 
         it('should create a diff object when collections are updated via updateOne', function (done) {
-            Sample1.history.find({}, function (err, histories) {
-                expect(err).to.null;
-                expect(histories.length).equal(1);
-                expect(histories[0].diff.ghi[0]).equal(123);
-                expect(histories[0].diff.ghi[1]).equal(323);
-                expect(histories[0].diff.def[0]).equal('ipsum');
-                expect(histories[0].diff.def[1]).equal('hey  hye');
-                expect(histories[0].reason).equal(
-                    'Marcel updated using updateOne'
-                );
-                expect(histories[0].collectionName).equal(Sample1.modelName);
-                expect(histories[0].collectionName).equal(Sample1.modelName);
-                done();
-            });
+            Sample1.history
+                .find({}, function (err, histories) {
+                    expect(err).to.null;
+                    expect(histories.length).equal(1);
+                    expect(histories[0].diff.ghi[0]).equal(123);
+                    expect(histories[0].diff.ghi[1]).equal(323);
+                    expect(histories[0].diff.def[0]).equal('ipsum');
+                    expect(histories[0].diff.def[1]).equal('hey  hye');
+                    expect(histories[0].reason).equal(
+                        'Marcel updated using updateOne'
+                    );
+                    expect(histories[0].collectionName).equal(
+                        Sample1.modelName
+                    );
+                    expect(histories[0].collectionName).equal(
+                        Sample1.modelName
+                    );
+                    done();
+                })
+                .catch(done);
         });
 
         it('should return histories', function (done) {
@@ -799,28 +817,40 @@ describe('diffHistory', function () {
         });
 
         it('should create a diff object when collections are updated via update', function (done) {
-            Sample1.history.find({}, function (err, histories) {
-                expect(err).to.null;
-                expect(histories.length).equal(2);
-                expect(histories[0].diff.ghi[0]).equal(123);
-                expect(histories[0].diff.ghi[1]).equal(323);
-                expect(histories[0].diff.def[0]).equal('ipsum');
-                expect(histories[0].diff.def[1]).equal('hey  hye');
-                expect(histories[0].reason).equal('Mimani updated this also');
-                expect(histories[0].collectionName).equal(Sample1.modelName);
-                expect(histories[0].collectionName).equal(Sample1.modelName);
-                expect(histories[1].diff).deep.equal(
-                    diffPatch.diff(sample2, {})
-                );
-                expect(histories[1].reason).equal('As this was requested');
-                expect(histories[1].user).deep.equal({
-                    name: 'Peter',
-                    role: 'developer'
-                });
-                expect(histories[1].collectionName).equal(Sample1.modelName);
-                expect(histories[1].collectionName).equal(Sample1.modelName);
-                done();
-            });
+            Sample1.history
+                .find({}, function (err, histories) {
+                    expect(err).to.null;
+                    expect(histories.length).equal(2);
+                    expect(histories[0].diff.ghi[0]).equal(123);
+                    expect(histories[0].diff.ghi[1]).equal(323);
+                    expect(histories[0].diff.def[0]).equal('ipsum');
+                    expect(histories[0].diff.def[1]).equal('hey  hye');
+                    expect(histories[0].reason).equal(
+                        'Mimani updated this also'
+                    );
+                    expect(histories[0].collectionName).equal(
+                        Sample1.modelName
+                    );
+                    expect(histories[0].collectionName).equal(
+                        Sample1.modelName
+                    );
+                    expect(histories[1].diff).deep.equal(
+                        diffPatch.diff(sample2, {})
+                    );
+                    expect(histories[1].reason).equal('As this was requested');
+                    expect(histories[1].user).deep.equal({
+                        name: 'Peter',
+                        role: 'developer'
+                    });
+                    expect(histories[1].collectionName).equal(
+                        Sample1.modelName
+                    );
+                    expect(histories[1].collectionName).equal(
+                        Sample1.modelName
+                    );
+                    done();
+                })
+                .catch(done);
         });
 
         it('should return simple diffs', function (done) {
@@ -873,7 +903,7 @@ describe('diffHistory', function () {
                     expect(diffs[0].collectionName).to.be.an('undefined');
                     done();
                 }
-            );
+            ).catch(done);
         });
 
         it('should return simple diffs with callback and no opts', function (done) {
@@ -888,7 +918,7 @@ describe('diffHistory', function () {
                 expect(diffs[0].diff.def[1]).to.equal('hey  hye');
                 expect(diffs[0].collectionName).to.be.equal('samples');
                 done();
-            });
+            }).catch(done);
         });
 
         it('should return histories', function (done) {
@@ -958,7 +988,7 @@ describe('diffHistory', function () {
                 expect(historyAudits[1].changedAt).not.null;
                 expect(historyAudits[1].updatedAt).not.null;
                 done();
-            });
+            }).catch(done);
         });
 
         it('should get version after object is removed', function (done) {
@@ -1025,14 +1055,16 @@ describe('diffHistory', function () {
         });
 
         it('should assign correct version to diff history', function (done) {
-            Sample1.history.findOne(
-                { collectionId: sample2._id },
-                function (err, history) {
-                    expect(err).to.null;
-                    expect(history.version).equal(0);
-                    done();
-                }
-            );
+            Sample1.history
+                .findOne(
+                    { collectionId: sample2._id },
+                    function (err, history) {
+                        expect(err).to.null;
+                        expect(history.version).equal(0);
+                        done();
+                    }
+                )
+                .catch(done);
         });
     });
 
@@ -1055,11 +1087,13 @@ describe('diffHistory', function () {
         });
 
         it('it should not create histories', function (done) {
-            MandatorySchema.history.find({}, function (err, histories) {
-                expect(err).to.null;
-                expect(histories.length).equal(0);
-                done();
-            });
+            MandatorySchema.history
+                .find({}, function (err, histories) {
+                    expect(err).to.null;
+                    expect(histories.length).equal(0);
+                    done();
+                })
+                .catch(done);
         });
     });
 
@@ -1083,17 +1117,19 @@ describe('diffHistory', function () {
         });
 
         it('it should create histories', function (done) {
-            MandatorySchema.history.find({}, function (err, histories) {
-                expect(err).to.null;
-                expect(histories.length).equal(1);
-                expect(histories[0].diff.someString[0]).equal('string');
-                expect(histories[0].diff.someString[1]).equal(
-                    'ThisUpdateIsValid'
-                );
-                expect(histories[0].user).equal('Gibran');
-                expect(histories[0].reason).equal('TestingRequired');
-                done();
-            });
+            MandatorySchema.history
+                .find({}, function (err, histories) {
+                    expect(err).to.null;
+                    expect(histories.length).equal(1);
+                    expect(histories[0].diff.someString[0]).equal('string');
+                    expect(histories[0].diff.someString[1]).equal(
+                        'ThisUpdateIsValid'
+                    );
+                    expect(histories[0].user).equal('Gibran');
+                    expect(histories[0].reason).equal('TestingRequired');
+                    done();
+                })
+                .catch(done);
         });
     });
 
@@ -1140,14 +1176,16 @@ describe('diffHistory', function () {
                     expect(err).to.null;
                     expect(doc.length).equal(0);
                     done();
-                });
+                }).catch(done);
             });
             it('it should rollback histories with abortTransaction', function (done) {
-                Sample1.history.find({}, function (err, histories) {
-                    expect(err).to.null;
-                    expect(histories.length).equal(0);
-                    done();
-                });
+                Sample1.history
+                    .find({}, function (err, histories) {
+                        expect(err).to.null;
+                        expect(histories.length).equal(0);
+                        done();
+                    })
+                    .catch(done);
             });
         });
 
@@ -1269,14 +1307,22 @@ describe('diffHistory Error', function () {
 });
 
 describe('diffHistory URI Option', function () {
-    it('should connect to DB at optional URI', function () {
+    it('should connect to DB at optional URI', async () => {
         const testSchema = new mongoose.Schema({ a: String });
-        testSchema.plugin(diffHistory.plugin, {
-            name: 'uri',
-            uri: 'mongodb://localhost/customUri'
-        });
-        expect(mongoose.connections).to.be.an('array');
-        expect(mongoose.connections.length).to.equal(1);
-        expect(mongoose.connections[0].name).to.equal('customUri');
+        await new Promise(resolve =>
+            testSchema.plugin(diffHistory.plugin, {
+                name: 'uri',
+                connection: {
+                    uri: 'mongodb://localhost:27017/customUri',
+                    opts: {
+                        useUnifiedTopology: true
+                    },
+                    callback: resolve
+                }
+            })
+        );
+        await expect(mongoose.connections).to.be.an('array');
+        await expect(mongoose.connections.length).to.equal(1);
+        await expect(mongoose.connections[0].name).to.equal('customUri');
     });
 });

@@ -188,7 +188,7 @@ This project is now using [Conventional Commit](https://www.conventionalcommits.
           }
         )
         ```
--   You can view the database byh connecting to `mongodb://localhost:27017` through [mongo compass](https://www.mongodb.com/try/download/compass)
+-   You can view the database by connecting to `mongodb://localhost:27017,localhost:27018,localhost:27019/tekpub_test?replicaSet=rs0` through [mongo compass](https://www.mongodb.com/try/download/compass)
 -   Run test suite with `npm run test`
 
 ### Available Commands

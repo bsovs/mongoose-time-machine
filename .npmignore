@@ -4,3 +4,12 @@ node_modules/
 coverage/
 example/npm-debug.log
 .DS_Store
+.nyc_output/
+.github/
+example/
+tests/
+.gitignore
+.travis.yml
+commitlint.config.js
+prettier.config.js
+mongo

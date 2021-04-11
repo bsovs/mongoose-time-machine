@@ -1306,23 +1306,24 @@ describe('legacyTest Error', function () {
     });
 });
 
-describe('legacyTest URI Option', function () {
-    it('should connect to DB at optional URI', async () => {
+describe('Adapter Option', function () {
+    it('should connect to DB at optional URI throguh adapter', async () => {
         const testSchema = new mongoose.Schema({ a: String });
-        await new Promise(resolve =>
-            testSchema.plugin(diffHistory.plugin, {
-                name: 'uri',
-                connection: {
-                    uri: 'mongodb://localhost:27017/customUri',
-                    opts: {
-                        useUnifiedTopology: true
-                    },
-                    callback: resolve
-                }
-            })
-        );
-        await expect(mongoose.connections).to.be.an('array');
-        await expect(mongoose.connections.length).to.equal(1);
-        await expect(mongoose.connections[0].name).to.equal('customUri');
+        const customURI = `mongodb://localhost:27017/customUri?retryWrites=true&w=majority`;
+        const adapter = await mongoose.createConnection(customURI, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true
+        });
+        testSchema.plugin(diffHistory.plugin, {
+            name: 'uri',
+            adapter
+        });
+        const model = adapter.model('testSchema2', testSchema);
+        const t = new model({ a: 'b' });
+        expect(mongoose.connections).to.be.an('array');
+        expect(mongoose.connections.length).to.equal(2);
+        expect(mongoose.connections[1].name).to.equal('customUri');
+        expect(model.history.db._connectionString).to.equal(customURI);
+        return true;
     });
 });

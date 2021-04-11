@@ -59,7 +59,7 @@ keys from history. Follows dot syntax for deeply nested values.
 const mongoose = require('mongoose');
 const timeMachine = require('mongoose-time-machine');
 
-const Schema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     someField: String,
     ignoredField: String,
     some: {
@@ -71,7 +71,24 @@ schema.plugin(timeMachine.plugin, {
     name: 'MyModelHistory',
     omit: ['ignoredField', 'some.deepField']
 });
-const mongooseModel = mongoose.model('MyModel', Schema);
+const mongooseModel = mongoose.model('MyModel', schema);
+```
+
+You can pass in a mongoose adapter to use for your history models as well. This allows for models to be connected to different clusters/collections.
+
+```js
+const myAdapter = await mongoose.createConnection(
+    `${uri}/${databaseName}?retryWrites=true`,
+    {}
+);
+
+schema.plugin(timeMachine.plugin, {
+    name: 'MyModelHistory',
+    adapter: myAdapter
+});
+const mongooseModel = myAdapter.model('MyModel', schema);
+
+// MyModelHistory model now lives at the same uri/databaseName as the mongooseModel created
 ```
 
 ## Helper Methods

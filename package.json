@@ -1,6 +1,6 @@
 {
     "name": "mongoose-time-machine",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "description": "Manage Mongo Collection diff History and versions",
     "main": "index.js",
     "directories": {
